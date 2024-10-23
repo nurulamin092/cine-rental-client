@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { useState } from "react";
+import { MovieContext } from "../../context";
 import { getImgUrl } from "../../utils/cine-utility";
 import MovieDetailsModal from "./MovieDetailsModal";
 import Rating from "./Rating";
@@ -7,9 +9,19 @@ const MovieCard = ({ movie }) => {
   const { cover, title, genre, price, rating } = movie;
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const { cartData, setCartData } = useContext(MovieContext);
 
   const handleAddToCart = (e, movie) => {
     e.stopPropagation();
+    const found = cartData.find((item) => {
+      return item.id === movie.id;
+    });
+
+    if (!found) {
+      setCartData([...cartData, movie]);
+    } else {
+      alert(`The movie ${movie.title} has been added to the cart already`);
+    }
   };
 
   const handleModalClose = () => {
@@ -18,7 +30,6 @@ const MovieCard = ({ movie }) => {
   };
 
   const handleMovieSelection = (movie) => {
-    // e.stopPropagation();
     setSelectedMovie(movie);
     setShowModal(true);
   };
@@ -26,7 +37,11 @@ const MovieCard = ({ movie }) => {
   return (
     <>
       {showModal && (
-        <MovieDetailsModal movie={selectedMovie} onClose={handleModalClose} />
+        <MovieDetailsModal
+          movie={selectedMovie}
+          onClose={handleModalClose}
+          onCartAdd={handleAddToCart}
+        />
       )}
       <figure className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
         <a onClick={() => handleMovieSelection(movie)}>
