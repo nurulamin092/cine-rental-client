@@ -1,11 +1,16 @@
 import Logo from "./assets/logo.svg";
 import RingImg from "./assets/ring.svg";
 import SumImg from "./assets/icons/sun.svg";
+import MoonImg from "./assets/icons/moon.svg";
 import ShoppingCart from "./assets/shopping-cart.svg";
 import CartDetails from "./Components/Cine/CartDetails";
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { ThemeContext } from "./context";
 const Headers = () => {
   const [showCart, setShowCart] = useState(false);
+
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   const handleShowCartDetails = () => {
     setShowCart(true);
@@ -32,8 +37,14 @@ const Headers = () => {
               <a
                 className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
                 href="#"
+                onClick={() => setDarkMode((darkMode) => !darkMode)}
               >
-                <img src={SumImg} width="24" height="24" alt="" />
+                <img
+                  src={darkMode ? SumImg : MoonImg}
+                  width="24"
+                  height="24"
+                  alt="theme-icon"
+                />
               </a>
             </li>
             <li>

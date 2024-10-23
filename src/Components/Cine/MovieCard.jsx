@@ -8,12 +8,17 @@ const MovieCard = ({ movie }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
+  const handleAddToCart = (e, movie) => {
+    e.stopPropagation();
+  };
+
   const handleModalClose = () => {
     setSelectedMovie(null);
     setShowModal(false);
   };
 
   const handleMovieSelection = (movie) => {
+    // e.stopPropagation();
     setSelectedMovie(movie);
     setShowModal(true);
   };
@@ -39,6 +44,7 @@ const MovieCard = ({ movie }) => {
             <a
               className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
               href="#"
+              onClick={(e) => handleAddToCart(e, movie)}
             >
               <img src="./assets/tag.svg" alt="" />
               <span>${price} | Add to Cart</span>
